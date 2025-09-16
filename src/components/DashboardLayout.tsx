@@ -9,6 +9,8 @@ const DashboardLayout = () => {
   const [questionClickHandler, setQuestionClickHandler] = useState<((question: string) => void) | undefined>();
 
   const handleQuestionClick = (question: string) => {
+    console.log('Question clicked:', question);
+    console.log('Handler exists:', !!questionClickHandler);
     if (questionClickHandler) {
       questionClickHandler(question);
     }
