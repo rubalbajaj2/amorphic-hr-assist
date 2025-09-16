@@ -102,7 +102,7 @@
 
   /* Agent command input styles */
   .agent-command-input {
-    @apply w-full bg-gradient-glass backdrop-blur-lg border border-white/20 rounded-xl px-6 py-4 text-lg placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300;
+    @apply w-full bg-gradient-glass backdrop-blur-lg border border-white/20 rounded-xl px-6 py-4 text-lg text-foreground placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300;
   }
 
   /* Metric card styles */

@@ -138,13 +138,13 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
               Recent Questions
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <ScrollArea className="h-80 px-4">
+              <ScrollArea className="flex-1 min-h-0 px-4" style={{ height: 'calc(100vh - 280px)' }}>
                 <div className="space-y-1">
                   {recentQuestions.map((question, index) => (
                     <button
                       key={index}
                       onClick={() => onQuestionClick?.(question)}
-                      className="w-full text-left p-2 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-colors duration-200 line-clamp-2"
+                      className="w-full text-left p-3 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-colors duration-200 whitespace-normal leading-relaxed"
                     >
                       {question}
                     </button>
