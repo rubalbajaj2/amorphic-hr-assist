@@ -26,14 +26,12 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    setQuestionClickHandler(handleQuestionClick);
+    if (setQuestionClickHandler) {
+      setQuestionClickHandler(handleQuestionClick);
+    }
   }, [setQuestionClickHandler, handleQuestionClick]);
 
   const handleAgentCommand = async (command: string) => {
-    // Reset external command state after execution
-    setExternalCommand("");
-    setAutoExecute(false);
-    
     // Simulate agent processing
     const taskId = Date.now().toString();
     const task = {
@@ -60,6 +58,10 @@ const Dashboard = () => {
 
     // Mark task as completed
     setCurrentTask(prev => ({ ...prev, status: "completed" }));
+    
+    // Reset external command state after execution
+    setExternalCommand("");
+    setAutoExecute(false);
   };
 
   const extractTaskTitle = (command: string): string => {

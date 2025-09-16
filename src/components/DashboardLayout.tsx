@@ -36,7 +36,11 @@ const DashboardLayout = () => {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
-          <Outlet context={{ setQuestionClickHandler }} />
+          <Outlet context={{ 
+            setQuestionClickHandler: (handler: (question: string) => void) => {
+              setQuestionClickHandler(() => handler);
+            }
+          }} />
         </main>
       </div>
     </div>
