@@ -138,7 +138,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
               Recent Questions
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <ScrollArea className="flex-1 min-h-0 px-4" style={{ height: 'calc(100vh - 280px)' }}>
+              <div className="px-4 max-h-[calc(100vh-280px)] overflow-y-auto">
                 <div className="space-y-1">
                   {recentQuestions.map((question, index) => (
                     <button
@@ -150,7 +150,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
                     </button>
                   ))}
                 </div>
-              </ScrollArea>
+              </div>
             </SidebarGroupContent>
           </SidebarGroup>
         )}

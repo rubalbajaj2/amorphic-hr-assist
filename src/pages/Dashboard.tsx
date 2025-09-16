@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useOutletContext } from "react-router-dom";
 import { AgentCommandBar } from "@/components/AgentCommandBar";
 import { TaskExecutionView } from "@/components/TaskExecutionView";
@@ -20,9 +20,14 @@ const Dashboard = () => {
     setQuestionClickHandler: (handler: (question: string) => void) => void;
   }>();
 
+  const handleQuestionClick = useCallback((question: string) => {
+    setExternalCommand(question);
+    setAutoExecute(false); // Don't auto-execute, just populate the field
+  }, []);
+
   useEffect(() => {
     setQuestionClickHandler(handleQuestionClick);
-  }, [setQuestionClickHandler]);
+  }, [setQuestionClickHandler, handleQuestionClick]);
 
   const handleAgentCommand = async (command: string) => {
     // Reset external command state after execution
@@ -55,11 +60,6 @@ const Dashboard = () => {
 
     // Mark task as completed
     setCurrentTask(prev => ({ ...prev, status: "completed" }));
-  };
-
-  const handleQuestionClick = (question: string) => {
-    setExternalCommand(question);
-    setAutoExecute(true);
   };
 
   const extractTaskTitle = (command: string): string => {

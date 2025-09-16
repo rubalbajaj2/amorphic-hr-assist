@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Send, Sparkles } from "lucide-react";
 
@@ -11,15 +11,19 @@ interface AgentCommandBarProps {
 
 export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, autoExecute = false }: AgentCommandBarProps) => {
   const [command, setCommand] = useState("");
+  const executeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Handle external command input
   useEffect(() => {
     if (externalCommand) {
       setCommand(externalCommand);
       if (autoExecute && !disabled) {
-        // Small delay to ensure the input is updated
+        // Small delay to ensure the input is updated, then focus on execute button
         setTimeout(() => {
-          onSubmit(externalCommand.trim());
+          if (executeButtonRef.current) {
+            executeButtonRef.current.focus();
+            executeButtonRef.current.click();
+          }
         }, 100);
       }
     }
@@ -59,6 +63,7 @@ export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, a
             />
             
             <Button
+              ref={executeButtonRef}
               type="submit"
               disabled={!command.trim() || disabled}
               className="bg-gradient-primary hover:bg-gradient-primary/90 px-6"
@@ -72,6 +77,13 @@ export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, a
             <div className="mt-3 text-sm text-warning flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-warning animate-pulse" />
               Agent is currently processing a task...
+            </div>
+          )}
+          
+          {externalCommand && !disabled && (
+            <div className="mt-3 text-sm text-blue-400 flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+              Question loaded! Click "Execute" to run the command.
             </div>
           )}
         </div>

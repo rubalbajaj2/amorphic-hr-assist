@@ -2,15 +2,12 @@ import { Outlet } from "react-router-dom";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { User } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useState } from "react";
 
 const DashboardLayout = () => {
   const [questionClickHandler, setQuestionClickHandler] = useState<((question: string) => void) | undefined>();
 
   const handleQuestionClick = (question: string) => {
-    console.log('Question clicked:', question);
-    console.log('Handler exists:', !!questionClickHandler);
     if (questionClickHandler) {
       questionClickHandler(question);
     }
@@ -31,11 +28,9 @@ const DashboardLayout = () => {
           </div>
           
           <div className="flex items-center gap-3">
-            <Avatar className="h-8 w-8 border border-white/20">
-              <AvatarFallback className="bg-gradient-primary text-primary-foreground">
-                <User className="h-4 w-4" />
-              </AvatarFallback>
-            </Avatar>
+            <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center border border-white/20">
+              <User className="h-4 w-4 text-primary-foreground" />
+            </div>
           </div>
         </header>
 
