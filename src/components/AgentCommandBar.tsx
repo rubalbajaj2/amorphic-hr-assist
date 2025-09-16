@@ -1,14 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Send, Sparkles } from "lucide-react";
 
 interface AgentCommandBarProps {
   onSubmit: (command: string) => void;
   disabled?: boolean;
+  externalCommand?: string;
+  autoExecute?: boolean;
 }
 
-export const AgentCommandBar = ({ onSubmit, disabled = false }: AgentCommandBarProps) => {
+export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, autoExecute = false }: AgentCommandBarProps) => {
   const [command, setCommand] = useState("");
+
+  // Handle external command input
+  useEffect(() => {
+    if (externalCommand) {
+      setCommand(externalCommand);
+      if (autoExecute && !disabled) {
+        // Small delay to ensure the input is updated
+        setTimeout(() => {
+          onSubmit(externalCommand.trim());
+        }, 100);
+      }
+    }
+  }, [externalCommand, autoExecute, disabled, onSubmit]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

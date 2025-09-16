@@ -13,16 +13,22 @@ const Dashboard = () => {
     policies: 2,
     queries: 7
   });
+  const [externalCommand, setExternalCommand] = useState<string>("");
+  const [autoExecute, setAutoExecute] = useState<boolean>(false);
   
   const { setQuestionClickHandler } = useOutletContext<{
     setQuestionClickHandler: (handler: (question: string) => void) => void;
   }>();
 
   useEffect(() => {
-    setQuestionClickHandler(handleAgentCommand);
+    setQuestionClickHandler(handleQuestionClick);
   }, [setQuestionClickHandler]);
 
   const handleAgentCommand = async (command: string) => {
+    // Reset external command state after execution
+    setExternalCommand("");
+    setAutoExecute(false);
+    
     // Simulate agent processing
     const taskId = Date.now().toString();
     const task = {
@@ -49,6 +55,11 @@ const Dashboard = () => {
 
     // Mark task as completed
     setCurrentTask(prev => ({ ...prev, status: "completed" }));
+  };
+
+  const handleQuestionClick = (question: string) => {
+    setExternalCommand(question);
+    setAutoExecute(true);
   };
 
   const extractTaskTitle = (command: string): string => {
@@ -92,7 +103,12 @@ const Dashboard = () => {
     <div className="space-y-8">
       {/* Agent Command Bar */}
       <div className="fade-in">
-        <AgentCommandBar onSubmit={handleAgentCommand} disabled={currentTask?.status === "processing"} />
+        <AgentCommandBar 
+          onSubmit={handleAgentCommand} 
+          disabled={currentTask?.status === "processing"}
+          externalCommand={externalCommand}
+          autoExecute={autoExecute}
+        />
       </div>
 
       {/* Real-time Task View */}
