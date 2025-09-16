@@ -112,7 +112,7 @@
 
   /* Task execution styles */
   .task-step {
-    @apply flex items-center gap-3 p-3 rounded-lg transition-all duration-300;
+    @apply flex items-start gap-3 p-4 rounded-lg transition-all duration-300;
   }
 
   .task-step.pending {
@@ -121,6 +121,10 @@
 
   .task-step.completed {
     @apply bg-success/10 border-l-4 border-l-success;
+  }
+
+  .task-step strong {
+    @apply font-semibold text-foreground;
   }
 
   /* Timeline styles */

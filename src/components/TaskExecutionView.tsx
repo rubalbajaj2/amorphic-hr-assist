@@ -90,9 +90,10 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
                   ? "text-foreground" 
                   : "text-muted-foreground"
               }`}
-            >
-              {step.text}
-            </span>
+              dangerouslySetInnerHTML={{
+                __html: step.text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
+              }}
+            />
           </div>
         ))}
       </div>
