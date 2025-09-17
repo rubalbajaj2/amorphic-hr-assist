@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Send, Sparkles } from "lucide-react";
+import { Send, Sparkles, X } from "lucide-react";
 
 interface AgentCommandBarProps {
   onSubmit: (command: string) => void;
   disabled?: boolean;
   externalCommand?: string;
   autoExecute?: boolean;
+  onClear?: () => void;
 }
 
-export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, autoExecute = false }: AgentCommandBarProps) => {
+export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, autoExecute = false, onClear }: AgentCommandBarProps) => {
   const [command, setCommand] = useState("");
   const executeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -37,6 +38,13 @@ export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, a
     }
   };
 
+  const handleClear = () => {
+    setCommand("");
+    if (onClear) {
+      onClear();
+    }
+  };
+
   const placeholder = "Give the agent a goal... (e.g., 'Onboard our new analyst, Ben Carter, starting October 1st')";
 
   return (
@@ -53,20 +61,32 @@ export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, a
           </div>
           
           <div className="flex gap-3">
-            <input
-              type="text"
-              value={command}
-              onChange={(e) => setCommand(e.target.value)}
-              placeholder={placeholder}
-              disabled={disabled}
-              className="agent-command-input flex-1"
-            />
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={command}
+                onChange={(e) => setCommand(e.target.value)}
+                placeholder={placeholder}
+                disabled={disabled}
+                className="agent-command-input w-full pr-10"
+              />
+              {command && (
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  disabled={disabled}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
             
             <Button
               ref={executeButtonRef}
               type="submit"
               disabled={!command.trim() || disabled}
-              className="bg-gradient-primary hover:bg-gradient-primary/90 px-6"
+              className="bg-gradient-primary hover:bg-gradient-primary/90 px-6 h-12"
             >
               <Send className="h-4 w-4 mr-2" />
               Execute

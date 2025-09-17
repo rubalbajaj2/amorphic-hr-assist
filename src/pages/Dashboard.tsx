@@ -5,6 +5,7 @@ import { TaskExecutionView } from "@/components/TaskExecutionView";
 import { MetricsSection } from "@/components/MetricsSection";
 import { SuggestedNextSteps } from "@/components/SuggestedNextSteps";
 import { questionMapping } from "@/data/questionMapping";
+import { suggestedStepsMapping } from "@/data/suggestedStepsMapping";
 
 const Dashboard = () => {
   const [currentTask, setCurrentTask] = useState<any>(null);
@@ -15,6 +16,8 @@ const Dashboard = () => {
   });
   const [externalCommand, setExternalCommand] = useState<string>("");
   const [autoExecute, setAutoExecute] = useState<boolean>(false);
+  const [suggestedSteps, setSuggestedSteps] = useState<{ findOutput?: string; nextSteps?: string[] }>({});
+  const [suggestedStepsLoading, setSuggestedStepsLoading] = useState<{ findOutput: boolean; nextSteps: boolean }>({ findOutput: false, nextSteps: false });
   
   const { setQuestionClickHandler } = useOutletContext<{
     setQuestionClickHandler: (handler: (question: string) => void) => void;
@@ -25,6 +28,14 @@ const Dashboard = () => {
     setAutoExecute(false); // Don't auto-execute, just populate the field
   }, []);
 
+  const handleClear = useCallback(() => {
+    setExternalCommand("");
+    setAutoExecute(false);
+    setCurrentTask(null);
+    setSuggestedSteps({});
+    setSuggestedStepsLoading({ findOutput: false, nextSteps: false });
+  }, []);
+
   useEffect(() => {
     if (setQuestionClickHandler) {
       setQuestionClickHandler(handleQuestionClick);
@@ -32,6 +43,10 @@ const Dashboard = () => {
   }, [setQuestionClickHandler, handleQuestionClick]);
 
   const handleAgentCommand = async (command: string) => {
+    // Clear any existing suggested steps at the start
+    setSuggestedSteps({});
+    setSuggestedStepsLoading({ findOutput: false, nextSteps: false });
+
     // Simulate agent processing
     const taskId = Date.now().toString();
     const task = {
@@ -58,6 +73,31 @@ const Dashboard = () => {
 
     // Mark task as completed
     setCurrentTask(prev => ({ ...prev, status: "completed" }));
+
+    // Set suggested steps after task completion with loading states
+    const steps = suggestedStepsMapping[command];
+    if (steps) {
+      // Start loading for both sections
+      setSuggestedStepsLoading({ findOutput: true, nextSteps: true });
+      
+      // Show "Find the Output" after a longer delay
+      setTimeout(() => {
+        setSuggestedSteps(prev => ({
+          ...prev,
+          findOutput: steps.findOutput
+        }));
+        setSuggestedStepsLoading(prev => ({ ...prev, findOutput: false }));
+      }, 2000);
+      
+      // Show "Plan Your Actions" after an even longer delay
+      setTimeout(() => {
+        setSuggestedSteps(prev => ({
+          ...prev,
+          nextSteps: steps.nextSteps
+        }));
+        setSuggestedStepsLoading(prev => ({ ...prev, nextSteps: false }));
+      }, 4000);
+    }
     
     // Reset external command state after execution
     setExternalCommand("");
@@ -104,14 +144,15 @@ const Dashboard = () => {
   return (
     <div className="space-y-8">
       {/* Agent Command Bar */}
-      <div className="fade-in">
-        <AgentCommandBar 
-          onSubmit={handleAgentCommand} 
-          disabled={currentTask?.status === "processing"}
-          externalCommand={externalCommand}
-          autoExecute={autoExecute}
-        />
-      </div>
+          <div className="fade-in">
+            <AgentCommandBar
+              onSubmit={handleAgentCommand}
+              disabled={currentTask?.status === "processing"}
+              externalCommand={externalCommand}
+              autoExecute={autoExecute}
+              onClear={handleClear}
+            />
+          </div>
 
       {/* Real-time Task View */}
       {currentTask && (
@@ -127,7 +168,12 @@ const Dashboard = () => {
 
       {/* Suggested Next Steps */}
       <div className="fade-in" style={{ animationDelay: "0.4s" }}>
-        <SuggestedNextSteps metrics={metrics} />
+        <SuggestedNextSteps 
+          metrics={metrics} 
+          findOutput={suggestedSteps.findOutput}
+          nextSteps={suggestedSteps.nextSteps}
+          loading={suggestedStepsLoading}
+        />
       </div>
     </div>
   );
