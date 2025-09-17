@@ -132,8 +132,8 @@ export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, proTip, loa
           </div>
         )}
 
-        {/* Default suggestions when no specific output/steps provided */}
-        {!findOutput && !nextSteps && !proTip && !loading?.findOutput && !loading?.nextSteps && !loading?.proTip && (
+        {/* Default suggestions when no specific output/steps provided and metrics are available */}
+        {!findOutput && !nextSteps && !proTip && !loading?.findOutput && !loading?.nextSteps && !loading?.proTip && metrics && (
           <div className="space-y-3">
             {defaultSuggestions.map((suggestion, index) => (
               <div

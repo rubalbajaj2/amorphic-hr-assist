@@ -19,6 +19,9 @@ const Dashboard = () => {
   const [autoExecute, setAutoExecute] = useState<boolean>(false);
   const [suggestedSteps, setSuggestedSteps] = useState<{ findOutput?: string; nextSteps?: string[]; proTip?: string }>({});
   const [suggestedStepsLoading, setSuggestedStepsLoading] = useState<{ findOutput: boolean; nextSteps: boolean; proTip: boolean }>({ findOutput: false, nextSteps: false, proTip: false });
+  const [currentCommand, setCurrentCommand] = useState<string>("");
+  const [showMetrics, setShowMetrics] = useState<boolean>(false);
+  const [metricsLoading, setMetricsLoading] = useState<boolean>(false);
   
   const { setQuestionClickHandler } = useOutletContext<{
     setQuestionClickHandler: (handler: (question: string) => void) => void;
@@ -35,6 +38,19 @@ const Dashboard = () => {
     setCurrentTask(null);
     setSuggestedSteps({});
     setSuggestedStepsLoading({ findOutput: false, nextSteps: false, proTip: false });
+    setCurrentCommand("");
+    setShowMetrics(false);
+    setMetricsLoading(false);
+  }, []);
+
+  const isOnboardingRelated = useCallback((command: string) => {
+    const onboardingKeywords = [
+      'onboard', 'onboarding', 'welcome', 'new hire', 'new employee', 
+      'first day', 'probation', 'training', 'mandatory', 'intern'
+    ];
+    return onboardingKeywords.some(keyword => 
+      command.toLowerCase().includes(keyword)
+    );
   }, []);
 
   useEffect(() => {
@@ -47,6 +63,9 @@ const Dashboard = () => {
     // Clear any existing suggested steps at the start
     setSuggestedSteps({});
     setSuggestedStepsLoading({ findOutput: false, nextSteps: false, proTip: false });
+    setCurrentCommand(command);
+    setShowMetrics(false);
+    setMetricsLoading(false);
 
     // Simulate agent processing
     const taskId = Date.now().toString();
@@ -108,6 +127,17 @@ const Dashboard = () => {
           proTip: proTip
         }));
         setSuggestedStepsLoading(prev => ({ ...prev, proTip: false }));
+        
+        // After all suggested steps are complete, show metrics for onboarding questions
+        if (isOnboardingRelated(command)) {
+          setTimeout(() => {
+            setMetricsLoading(true);
+            setTimeout(() => {
+              setMetricsLoading(false);
+              setShowMetrics(true);
+            }, 2000); // 2 seconds loading for metrics
+          }, 1000); // 1 second delay after pro tip appears
+        }
       }, 6000);
     }
     
@@ -173,21 +203,41 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Metrics Section */}
-      <div className="fade-in" style={{ animationDelay: "0.2s" }}>
-        <MetricsSection />
-      </div>
+      {/* Suggested Next Steps - Only show when there's content or loading */}
+      {(suggestedSteps.findOutput || suggestedSteps.nextSteps || suggestedSteps.proTip || 
+        suggestedStepsLoading.findOutput || suggestedStepsLoading.nextSteps || suggestedStepsLoading.proTip) && (
+        <div className="fade-in" style={{ animationDelay: "0.4s" }}>
+          <SuggestedNextSteps 
+            metrics={metrics} 
+            findOutput={suggestedSteps.findOutput}
+            nextSteps={suggestedSteps.nextSteps}
+            proTip={suggestedSteps.proTip}
+            loading={suggestedStepsLoading}
+          />
+        </div>
+      )}
 
-      {/* Suggested Next Steps */}
-      <div className="fade-in" style={{ animationDelay: "0.4s" }}>
-        <SuggestedNextSteps 
-          metrics={metrics} 
-          findOutput={suggestedSteps.findOutput}
-          nextSteps={suggestedSteps.nextSteps}
-          proTip={suggestedSteps.proTip}
-          loading={suggestedStepsLoading}
-        />
-      </div>
+      {/* Metrics Section - Only for onboarding-related questions, shown after suggested steps */}
+      {isOnboardingRelated(currentCommand) && (showMetrics || metricsLoading) && (
+        <div className="fade-in" style={{ animationDelay: "0.6s" }}>
+          {metricsLoading ? (
+            <div className="glass-card p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
+                  <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Key Metrics</h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-sm text-muted-foreground">Loading key metrics...</p>
+              </div>
+            </div>
+          ) : (
+            <MetricsSection />
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
+import { useState, useMemo } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +11,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Home, Users, BookOpen, MessageSquare } from "lucide-react";
+import { Home, Users, BookOpen, MessageSquare, Search, X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const navigationItems = [
@@ -92,6 +93,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
   const { state } = useSidebar();
   const location = useLocation();
   const collapsed = state === "collapsed";
+  const [searchQuery, setSearchQuery] = useState("");
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -104,6 +106,19 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
     isActive
       ? "nav-item-active"
       : "hover:bg-white/10 transition-all duration-300";
+
+  const filteredQuestions = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return recentQuestions;
+    }
+    return recentQuestions.filter(question =>
+      question.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+  };
 
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
@@ -138,17 +153,46 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
               Recent Questions
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <div className="px-4 max-h-[calc(100vh-280px)] overflow-y-auto">
-                <div className="space-y-1">
-                  {recentQuestions.map((question, index) => (
+              {/* Search Bar */}
+              <div className="px-4 mb-3">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Search questions..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-8 py-2 bg-background-secondary/30 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300"
+                  />
+                  {searchQuery && (
                     <button
-                      key={index}
-                      onClick={() => onQuestionClick?.(question)}
-                      className="w-full text-left p-3 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-colors duration-200 whitespace-normal leading-relaxed"
+                      onClick={handleClearSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {question}
+                      <X className="h-4 w-4" />
                     </button>
-                  ))}
+                  )}
+                </div>
+              </div>
+              
+              {/* Questions List */}
+              <div className="px-4 max-h-[calc(100vh-350px)] overflow-y-auto">
+                <div className="space-y-1">
+                  {filteredQuestions.length > 0 ? (
+                    filteredQuestions.map((question, index) => (
+                      <button
+                        key={index}
+                        onClick={() => onQuestionClick?.(question)}
+                        className="w-full text-left p-3 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-colors duration-200 whitespace-normal leading-relaxed"
+                      >
+                        {question}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="p-3 text-sm text-muted-foreground text-center">
+                      No questions found matching "{searchQuery}"
+                    </div>
+                  )}
                 </div>
               </div>
             </SidebarGroupContent>
