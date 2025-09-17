@@ -6,6 +6,7 @@ import { MetricsSection } from "@/components/MetricsSection";
 import { SuggestedNextSteps } from "@/components/SuggestedNextSteps";
 import { questionMapping } from "@/data/questionMapping";
 import { suggestedStepsMapping } from "@/data/suggestedStepsMapping";
+import { proTipMapping } from "@/data/proTipMapping";
 
 const Dashboard = () => {
   const [currentTask, setCurrentTask] = useState<any>(null);
@@ -16,8 +17,8 @@ const Dashboard = () => {
   });
   const [externalCommand, setExternalCommand] = useState<string>("");
   const [autoExecute, setAutoExecute] = useState<boolean>(false);
-  const [suggestedSteps, setSuggestedSteps] = useState<{ findOutput?: string; nextSteps?: string[] }>({});
-  const [suggestedStepsLoading, setSuggestedStepsLoading] = useState<{ findOutput: boolean; nextSteps: boolean }>({ findOutput: false, nextSteps: false });
+  const [suggestedSteps, setSuggestedSteps] = useState<{ findOutput?: string; nextSteps?: string[]; proTip?: string }>({});
+  const [suggestedStepsLoading, setSuggestedStepsLoading] = useState<{ findOutput: boolean; nextSteps: boolean; proTip: boolean }>({ findOutput: false, nextSteps: false, proTip: false });
   
   const { setQuestionClickHandler } = useOutletContext<{
     setQuestionClickHandler: (handler: (question: string) => void) => void;
@@ -33,7 +34,7 @@ const Dashboard = () => {
     setAutoExecute(false);
     setCurrentTask(null);
     setSuggestedSteps({});
-    setSuggestedStepsLoading({ findOutput: false, nextSteps: false });
+    setSuggestedStepsLoading({ findOutput: false, nextSteps: false, proTip: false });
   }, []);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const Dashboard = () => {
   const handleAgentCommand = async (command: string) => {
     // Clear any existing suggested steps at the start
     setSuggestedSteps({});
-    setSuggestedStepsLoading({ findOutput: false, nextSteps: false });
+    setSuggestedStepsLoading({ findOutput: false, nextSteps: false, proTip: false });
 
     // Simulate agent processing
     const taskId = Date.now().toString();
@@ -76,15 +77,17 @@ const Dashboard = () => {
 
     // Set suggested steps after task completion with loading states
     const steps = suggestedStepsMapping[command];
-    if (steps) {
-      // Start loading for both sections
-      setSuggestedStepsLoading({ findOutput: true, nextSteps: true });
+    const proTip = proTipMapping[command];
+    
+    if (steps || proTip) {
+      // Start loading for all sections
+      setSuggestedStepsLoading({ findOutput: true, nextSteps: true, proTip: true });
       
       // Show "Find the Output" after a longer delay
       setTimeout(() => {
         setSuggestedSteps(prev => ({
           ...prev,
-          findOutput: steps.findOutput
+          findOutput: steps?.findOutput
         }));
         setSuggestedStepsLoading(prev => ({ ...prev, findOutput: false }));
       }, 2000);
@@ -93,10 +96,19 @@ const Dashboard = () => {
       setTimeout(() => {
         setSuggestedSteps(prev => ({
           ...prev,
-          nextSteps: steps.nextSteps
+          nextSteps: steps?.nextSteps
         }));
         setSuggestedStepsLoading(prev => ({ ...prev, nextSteps: false }));
       }, 4000);
+      
+      // Show "Pro Tip" after the longest delay
+      setTimeout(() => {
+        setSuggestedSteps(prev => ({
+          ...prev,
+          proTip: proTip
+        }));
+        setSuggestedStepsLoading(prev => ({ ...prev, proTip: false }));
+      }, 6000);
     }
     
     // Reset external command state after execution
@@ -172,6 +184,7 @@ const Dashboard = () => {
           metrics={metrics} 
           findOutput={suggestedSteps.findOutput}
           nextSteps={suggestedSteps.nextSteps}
+          proTip={suggestedSteps.proTip}
           loading={suggestedStepsLoading}
         />
       </div>

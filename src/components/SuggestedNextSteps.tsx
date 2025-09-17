@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Sparkles, Search, CheckCircle, Loader2 } from "lucide-react";
+import { Sparkles, Search, CheckCircle, Loader2, Lightbulb } from "lucide-react";
 
 interface SuggestedNextStepsProps {
   metrics?: {
@@ -9,13 +9,15 @@ interface SuggestedNextStepsProps {
   };
   findOutput?: string;
   nextSteps?: string[];
+  proTip?: string;
   loading?: {
     findOutput: boolean;
     nextSteps: boolean;
+    proTip: boolean;
   };
 }
 
-export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, loading }: SuggestedNextStepsProps) => {
+export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, proTip, loading }: SuggestedNextStepsProps) => {
   const generateDefaultSuggestions = () => {
     if (!metrics) return [];
     
@@ -105,8 +107,33 @@ export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, loading }: 
           </div>
         )}
 
+        {/* Pro Tip Section */}
+        {(proTip || loading?.proTip) && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Lightbulb className="h-5 w-5 text-yellow-400" />
+              <h4 className="text-md font-semibold text-foreground">Pro Tip</h4>
+            </div>
+            <div className="p-4 rounded-lg bg-yellow-50/10 border border-yellow-200/20">
+              {loading?.proTip ? (
+                <div className="flex items-center gap-3">
+                  <Loader2 className="h-4 w-4 animate-spin text-yellow-400" />
+                  <p className="text-sm text-muted-foreground">Generating pro tip...</p>
+                </div>
+              ) : (
+                <p 
+                  className="text-sm text-foreground"
+                  dangerouslySetInnerHTML={{
+                    __html: proTip?.replace(/\*(.*?)\*/g, '<em class="italic text-yellow-300">$1</em>') || ''
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Default suggestions when no specific output/steps provided */}
-        {!findOutput && !nextSteps && !loading?.findOutput && !loading?.nextSteps && (
+        {!findOutput && !nextSteps && !proTip && !loading?.findOutput && !loading?.nextSteps && !loading?.proTip && (
           <div className="space-y-3">
             {defaultSuggestions.map((suggestion, index) => (
               <div
