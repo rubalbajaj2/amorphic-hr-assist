@@ -7,8 +7,7 @@ import { SuggestedNextSteps } from "@/components/SuggestedNextSteps";
 import { questionMapping } from "@/data/questionMapping";
 import { suggestedStepsMapping } from "@/data/suggestedStepsMapping";
 import { proTipMapping } from "@/data/proTipMapping";
-import cloudAnalyticsLeft from "@/assets/cloud-analytics-left.png";
-import mlOrchestrationRight from "@/assets/ml-orchestration-right.png";
+import awsOrchestrationPlatform from "@/assets/aws-orchestration-platform.png";
 
 const Dashboard = () => {
   const [currentTask, setCurrentTask] = useState<any>(null);
@@ -189,31 +188,22 @@ const Dashboard = () => {
     <div className="space-y-8">
       {/* Header Panel */}
       <div className="glass-card p-6 rounded-2xl relative">
-        <div className="flex items-center justify-center relative">
-          {/* Left Analytics Icon */}
-          <div className="absolute left-8 top-1/2 transform -translate-y-1/2">
-            <img 
-              src={cloudAnalyticsLeft} 
-              alt="Cloud Analytics" 
-              className="h-12 w-12 opacity-80"
-            />
-          </div>
-          
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-blue-400 mb-2 flex items-center justify-center gap-4">
-              <span>Cloudwick | Amorphic</span>
+        <div className="flex items-center justify-between relative">
+          <div className="text-center flex-1">
+            <h1 className="text-2xl font-bold text-blue-400 mb-2">
+              Cloudwick | Amorphic
             </h1>
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
               Amorphic is a cloud orchestration platform that simplifies how IT, business, and data science teams manage advanced AWS analytics and machine learning. By seamlessly integrating over <strong>75+ AWS services</strong> with your existing data pipelines, it streamlines data operations and enhances usability.
             </p>
           </div>
           
-          {/* Right ML Orchestration Icon */}
-          <div className="absolute right-8 top-1/2 transform -translate-y-1/2">
+          {/* AWS Orchestration Platform Image */}
+          <div className="ml-8">
             <img 
-              src={mlOrchestrationRight} 
-              alt="ML Orchestration" 
-              className="h-12 w-12 opacity-80"
+              src={awsOrchestrationPlatform} 
+              alt="AWS Orchestration Platform" 
+              className="h-16 w-16 opacity-90 rounded-lg"
             />
           </div>
           
