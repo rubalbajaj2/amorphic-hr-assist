@@ -154,7 +154,7 @@ const KnowledgeBase = () => {
       <div className="fade-in">
         <h1 className="text-3xl font-bold text-foreground mb-2">AI Knowledge Base</h1>
         <p className="text-muted-foreground">
-          This Knowledge Base enables <strong>Retrieval-Augmented Generation (RAG)</strong>, ensuring the AI grounds its answers exclusively in your specific company documents.
+          The Knowledge Base is your company's secure, single source of truth, containing your proprietary documents, product data, and internal expertise. Our models use <strong>Retrieval-Augmented Generation (RAG)</strong> to consult this trusted information, enabling them to deliver highly accurate, context-aware outputs and execute tasks based on your unique data.
         </p>
       </div>
 
