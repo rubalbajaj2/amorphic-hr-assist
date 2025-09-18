@@ -98,11 +98,11 @@ const KnowledgeBase = () => {
   const getStatusIcon = (status: Document["status"]) => {
     switch (status) {
       case "synced":
-        return <CheckCircle className="h-4 w-4 text-success" />;
+        return <CheckCircle className="h-4 w-4 text-blue-500" />;
       case "syncing":
-        return <Clock className="h-4 w-4 text-warning animate-pulse" />;
+        return <Clock className="h-4 w-4 text-blue-500 animate-pulse" />;
       case "error":
-        return <CheckCircle className="h-4 w-4 text-destructive" />;
+        return <CheckCircle className="h-4 w-4 text-blue-500" />;
       default:
         return null;
     }
@@ -110,9 +110,9 @@ const KnowledgeBase = () => {
 
   const getStatusBadge = (status: Document["status"]) => {
     const variants = {
-      synced: "bg-success/20 text-success border-success/30",
-      syncing: "bg-warning/20 text-warning border-warning/30",
-      error: "bg-destructive/20 text-destructive border-destructive/30",
+      synced: "bg-success-100 text-success-600 border-success-300",
+      syncing: "bg-warning-100 text-warning-600 border-warning-300",
+      error: "bg-error-100 text-error-600 border-error-300",
     };
 
     return (
@@ -127,27 +127,26 @@ const KnowledgeBase = () => {
       <div className="fade-in">
         <h1 className="text-3xl font-bold text-foreground mb-2">Knowledge Base</h1>
         <p className="text-muted-foreground">
-          Manage documents that power the AI agent's knowledge and decision-making
+          This Knowledge Base enables <strong>Retrieval-Augmented Generation (RAG)</strong>, ensuring the AI grounds its answers exclusively in your specific company documents.
         </p>
       </div>
 
       {/* Upload Section */}
       <div className="fade-in" style={{ animationDelay: "0.1s" }}>
         <Card className="glass-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-foreground">Upload Documents</h3>
+          <div className="flex items-center justify-end mb-4">
             <Button 
               onClick={handleUpload}
               disabled={isUploading}
               className="bg-gradient-primary hover:bg-gradient-primary/90"
             >
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="h-4 w-4 mr-2 text-blue-500" />
               {isUploading ? "Uploading..." : "Upload Document"}
             </Button>
           </div>
           
           <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center">
-            <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <FileText className="h-12 w-12 text-blue-500 mx-auto mb-4" />
             <p className="text-muted-foreground mb-2">
               Drag and drop files here, or click the upload button
             </p>
@@ -171,7 +170,7 @@ const KnowledgeBase = () => {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-gradient-surface flex items-center justify-center">
-                    <FileText className="h-5 w-5 text-primary" />
+                    <FileText className="h-5 w-5 text-blue-500" />
                   </div>
                   
                   <div>
@@ -196,7 +195,7 @@ const KnowledgeBase = () => {
                     onClick={() => handleDelete(doc.id)}
                     className="text-muted-foreground hover:text-destructive"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-4 w-4 text-blue-500" />
                   </Button>
                 </div>
               </div>
@@ -205,7 +204,7 @@ const KnowledgeBase = () => {
 
           {documents.length === 0 && (
             <div className="text-center py-12 text-muted-foreground">
-              <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <FileText className="h-12 w-12 mx-auto mb-4 opacity-50 text-blue-500" />
               <p>No documents uploaded yet</p>
               <p className="text-sm">Upload your first document to get started</p>
             </div>

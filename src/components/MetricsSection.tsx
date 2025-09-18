@@ -9,8 +9,8 @@ const metrics = [
     change: "+2 this week",
     trend: "up",
     icon: Users,
-    color: "text-accent",
-    bgColor: "bg-accent/20",
+    color: "text-blue-500",
+    bgColor: "bg-blue-100",
   },
   {
     id: 2,
@@ -19,8 +19,8 @@ const metrics = [
     change: "-3 since last month",
     trend: "down",
     icon: FileCheck,
-    color: "text-warning",
-    bgColor: "bg-warning/20",
+    color: "text-yellow-600",
+    bgColor: "bg-yellow-100",
   },
   {
     id: 3,
@@ -29,15 +29,15 @@ const metrics = [
     change: "+5 today",
     trend: "up",
     icon: HelpCircle,
-    color: "text-primary",
-    bgColor: "bg-primary/20",
+    color: "text-green-600",
+    bgColor: "bg-green-100",
   },
 ];
 
 export const MetricsSection = () => {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-foreground mb-6">Key Metrics</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mb-6">Key Metrics</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {metrics.map((metric, index) => (
@@ -48,21 +48,21 @@ export const MetricsSection = () => {
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm text-muted-foreground mb-2">
+                <p className="text-sm text-gray-600 mb-2">
                   {metric.title}
                 </p>
-                <p className="text-3xl font-bold text-foreground mb-2">
+                <p className="text-3xl font-bold text-gray-800 mb-2">
                   {metric.value}
                 </p>
                 <div className="flex items-center gap-1 text-sm">
                   <TrendingUp 
                     className={`h-4 w-4 ${
-                      metric.trend === "up" ? "text-success" : "text-destructive"
+                      metric.trend === "up" ? "text-green-500" : "text-red-500"
                     } ${metric.trend === "down" ? "rotate-180" : ""}`} 
                   />
                   <span 
                     className={
-                      metric.trend === "up" ? "text-success" : "text-destructive"
+                      metric.trend === "up" ? "text-green-500" : "text-red-500"
                     }
                   >
                     {metric.change}
