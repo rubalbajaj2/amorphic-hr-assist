@@ -53,6 +53,33 @@ const OnboardingTracker = () => {
 
   return (
     <div className="space-y-8">
+      {/* Header Panel */}
+      <div className="glass-card p-6 rounded-2xl relative">
+        <div className="flex items-center justify-center relative">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-blue-400 mb-2">
+              Cloudwick | Amorphic
+            </h1>
+            <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+              Amorphic is a cloud orchestration platform that simplifies how IT, business, and data science teams manage advanced AWS analytics and machine learning. By seamlessly integrating over <strong>75+ AWS services</strong> with your existing data pipelines, it streamlines data operations and enhances usability.
+            </p>
+          </div>
+          
+          {/* AWS Logo - Top Right */}
+          <div className="absolute top-4 right-6">
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" 
+              alt="AWS Logo" 
+              className="h-4 w-auto brightness-0 invert"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement.innerHTML = '<div class="text-white font-bold text-xs">AWS</div>';
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="fade-in">
         <h1 className="text-3xl font-bold text-foreground mb-2">Onboarding Tracker</h1>
         <p className="text-muted-foreground">
@@ -84,7 +111,7 @@ const OnboardingTracker = () => {
                   {employeesInStage.map((employee) => (
                     <Card key={employee.id} className="glass-card p-4 hover:border-white/30 transition-all duration-300">
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground text-sm font-medium">
+                        <div className="w-8 h-8 rounded-full bg-blue-400 flex items-center justify-center text-white text-sm font-medium">
                           {employee.avatar}
                         </div>
                         
@@ -98,11 +125,11 @@ const OnboardingTracker = () => {
                           
                           <div className="space-y-1">
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <User className="h-3 w-3" />
+                              <User className="h-3 w-3 text-blue-400" />
                               {employee.manager}
                             </div>
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Calendar className="h-3 w-3" />
+                              <Calendar className="h-3 w-3 text-blue-400" />
                               {new Date(employee.startDate).toLocaleDateString()}
                             </div>
                           </div>

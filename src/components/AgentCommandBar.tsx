@@ -54,8 +54,8 @@ export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, a
       <form onSubmit={handleSubmit} className="relative">
         <div className="glass-card-elevated rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
-              <Sparkles className="h-4 w-4 text-primary-foreground" />
+            <div className="w-8 h-8 rounded-full bg-blue-400 flex items-center justify-center">
+              <Sparkles className="h-4 w-4 text-white" />
             </div>
             <h2 className="text-lg font-semibold text-foreground">AI Agent Command Center</h2>
           </div>
@@ -86,7 +86,7 @@ export const AgentCommandBar = ({ onSubmit, disabled = false, externalCommand, a
               ref={executeButtonRef}
               type="submit"
               disabled={!command.trim() || disabled}
-              className="bg-gradient-primary hover:bg-gradient-primary/90 px-6 h-12"
+              className="bg-blue-400 hover:bg-blue-500 text-white px-6 h-12"
             >
               <Send className="h-4 w-4 mr-2" />
               Execute

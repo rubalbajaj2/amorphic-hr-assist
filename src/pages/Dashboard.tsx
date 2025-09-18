@@ -185,6 +185,33 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-8">
+      {/* Header Panel */}
+      <div className="glass-card p-6 rounded-2xl relative">
+        <div className="flex items-center justify-center relative">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-blue-400 mb-2">
+              Cloudwick | Amorphic
+            </h1>
+            <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+              Amorphic is a cloud orchestration platform that simplifies how IT, business, and data science teams manage advanced AWS analytics and machine learning. By seamlessly integrating over <strong>75+ AWS services</strong> with your existing data pipelines, it streamlines data operations and enhances usability.
+            </p>
+          </div>
+          
+          {/* AWS Logo - Top Right */}
+          <div className="absolute top-4 right-6">
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" 
+              alt="AWS Logo" 
+              className="h-4 w-auto brightness-0 invert"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement.innerHTML = '<div class="text-white font-bold text-xs">AWS</div>';
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Agent Command Bar */}
           <div className="fade-in">
             <AgentCommandBar

@@ -53,8 +53,8 @@ export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, proTip, loa
   return (
     <Card className="glass-card p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
-          <Sparkles className="h-4 w-4 text-primary-foreground" />
+        <div className="w-8 h-8 rounded-full bg-blue-400 flex items-center justify-center">
+          <Sparkles className="h-4 w-4 text-white" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">Suggested Next Steps</h3>
       </div>
@@ -90,7 +90,7 @@ export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, proTip, loa
             <div className="space-y-2">
               {loading?.nextSteps ? (
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-background-secondary/30 border border-white/10">
-                  <Loader2 className="h-4 w-4 animate-spin text-green-400" />
+                  <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
                   <p className="text-sm text-muted-foreground">Generating action plan...</p>
                 </div>
               ) : (
@@ -117,7 +117,7 @@ export const SuggestedNextSteps = ({ metrics, findOutput, nextSteps, proTip, loa
             <div className="p-4 rounded-lg bg-yellow-50/10 border border-yellow-200/20">
               {loading?.proTip ? (
                 <div className="flex items-center gap-3">
-                  <Loader2 className="h-4 w-4 animate-spin text-yellow-400" />
+                  <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
                   <p className="text-sm text-muted-foreground">Generating pro tip...</p>
                 </div>
               ) : (

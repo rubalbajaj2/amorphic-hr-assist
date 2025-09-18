@@ -26,7 +26,7 @@ const navigationItems = [
     icon: Users,
   },
   {
-    title: "Knowledge Base",
+    title: "AI Knowledge Base",
     url: "/knowledge-base",
     icon: BookOpen,
   },
@@ -134,7 +134,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
                       end={item.url === "/"}
                       className={({ isActive }) => getNavCls({ isActive })}
                     >
-                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      <item.icon className="h-5 w-5 flex-shrink-0 text-blue-400" />
                       {!collapsed && (
                         <span className="font-medium">{item.title}</span>
                       )}
@@ -149,14 +149,14 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
         {!collapsed && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-4 flex items-center gap-2 text-muted-foreground">
-              <MessageSquare className="h-4 w-4" />
+              <MessageSquare className="h-4 w-4 text-blue-400" />
               Recent Questions
             </SidebarGroupLabel>
             <SidebarGroupContent>
               {/* Search Bar */}
               <div className="px-4 mb-3">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-400" />
                   <input
                     type="text"
                     placeholder="Search questions..."

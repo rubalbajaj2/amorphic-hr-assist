@@ -30,7 +30,7 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
       case "completed":
         return <CheckCircle className="h-5 w-5 text-success" />;
       case "pending":
-        return <Loader2 className="h-5 w-5 text-primary animate-spin" />;
+        return <Loader2 className="h-5 w-5 text-blue-400 animate-spin" />;
       default:
         return <Clock className="h-5 w-5 text-muted-foreground" />;
     }
@@ -50,7 +50,7 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
             className={
               task.status === "completed" 
                 ? "bg-success/20 text-success border-success/30" 
-                : "bg-primary/20 text-primary border-primary/30"
+                : "bg-blue-400/20 text-blue-400 border-blue-400/30"
             }
           >
             {task.status === "completed" ? "Complete" : "Processing"}
@@ -70,7 +70,7 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
         </div>
         <div className="w-full bg-background-secondary rounded-full h-2">
           <div 
-            className="bg-gradient-primary h-2 rounded-full transition-all duration-500 ease-out"
+            className="bg-blue-400 h-2 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progressPercentage}%` }}
           />
         </div>
