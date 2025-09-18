@@ -8,8 +8,12 @@ const DashboardLayout = () => {
   const [questionClickHandler, setQuestionClickHandler] = useState<((question: string) => void) | undefined>();
 
   const handleQuestionClick = (question: string) => {
+    console.log('DashboardLayout handleQuestionClick called with:', question);
     if (questionClickHandler) {
+      console.log('Calling questionClickHandler with question:', question);
       questionClickHandler(question);
+    } else {
+      console.log('No questionClickHandler available');
     }
   };
 
@@ -19,16 +23,16 @@ const DashboardLayout = () => {
       
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="h-16 flex items-center justify-between px-6 border-b border-white/10 bg-background-secondary/50 backdrop-blur-lg">
+        <header className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/50 backdrop-blur-lg">
           <div className="flex items-center gap-4">
-            <SidebarTrigger className="text-foreground hover:bg-white/10" />
-            <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <SidebarTrigger className="text-foreground hover:bg-secondary" />
+            <h1 className="text-heading-md font-semibold text-primary">
               Amorphic HR
             </h1>
           </div>
           
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center border border-white/20">
+            <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center border border-border">
               <User className="h-4 w-4 text-primary-foreground" />
             </div>
           </div>
