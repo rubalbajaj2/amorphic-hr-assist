@@ -188,8 +188,8 @@ const Dashboard = () => {
     <div className="space-y-8">
       {/* Header Panel */}
       <div className="glass-card p-6 rounded-2xl relative">
-        <div className="flex items-center justify-between relative">
-          <div className="text-center flex-1">
+        <div className="flex items-center justify-center relative">
+          <div className="text-center">
             <h1 className="text-2xl font-bold text-blue-400 mb-2">
               Cloudwick | Amorphic
             </h1>
@@ -198,17 +198,8 @@ const Dashboard = () => {
             </p>
           </div>
           
-          {/* AWS Orchestration Platform Image */}
-          <div className="ml-8">
-            <img 
-              src={awsOrchestrationPlatform} 
-              alt="AWS Orchestration Platform" 
-              className="h-16 w-16 opacity-90 rounded-lg"
-            />
-          </div>
-          
-          {/* AWS Logo - Top Right */}
-          <div className="absolute top-4 right-6">
+          {/* AWS Logo - Panel Corner */}
+          <div className="absolute" style={{ top: '-8px', right: '-8px' }}>
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" 
               alt="AWS Logo" 

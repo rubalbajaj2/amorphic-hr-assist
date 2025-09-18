@@ -136,8 +136,8 @@ const KnowledgeBase = () => {
             </p>
           </div>
           
-          {/* AWS Logo - Top Right */}
-          <div className="absolute top-4 right-6">
+          {/* AWS Logo - Panel Corner */}
+          <div className="absolute" style={{ top: '-8px', right: '-8px' }}>
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" 
               alt="AWS Logo" 
