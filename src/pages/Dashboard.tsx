@@ -28,9 +28,8 @@ const Dashboard = () => {
   }>();
 
   const handleQuestionClick = useCallback((question: string) => {
-    console.log('Dashboard handleQuestionClick called with:', question);
     setExternalCommand(question);
-    setAutoExecute(true); // Auto-execute the command
+    setAutoExecute(false); // Don't auto-execute, just populate the field
   }, []);
 
   const handleClear = useCallback(() => {
@@ -224,13 +223,13 @@ const Dashboard = () => {
           {metricsLoading ? (
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
                   <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground">Key Metrics</h3>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
                 <p className="text-sm text-muted-foreground">Loading key metrics...</p>
               </div>
             </div>

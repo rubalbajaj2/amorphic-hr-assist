@@ -2,124 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Theme Design System */
+/* Amorphic HR Design System - Professional, futuristic HR interface */
 
 @layer base {
   :root {
-    /* Base Background Colors */
-    --background: 0.210 0.005 243.8; /* iridium - dark base */
-    --foreground: 0.961 0.004 248.2; /* frost-blue - light text */
+    /* Base colors - Dark theme for professional look */
+    --background: 223 47% 4%;
+    --background-secondary: 224 44% 6%;
+    --background-tertiary: 225 41% 8%;
+    --foreground: 210 40% 98%;
 
-    /* Card Components */
-    --card: 0.188 0.005 256.7; /* secondary-900 */
-    --card-foreground: 0.961 0.004 248.2; /* frost-blue */
-    --popover: 0.210 0.005 243.8; /* iridium */
-    --popover-foreground: 0.961 0.004 248.2; /* frost-blue */
+    /* Glass morphism cards */
+    --card: 223 47% 4%;
+    --card-foreground: 210 40% 98%;
+    --card-glass: 224 44% 6%;
 
-    /* Primary Colors (Blues) */
-    --primary: 0.688 0.141 238.9; /* primary-400 for dark theme */
-    --primary-foreground: 0.210 0.005 243.8; /* iridium */
+    /* Popover */
+    --popover: 224 44% 6%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Secondary Colors (Grays) */
-    --secondary: 0.239 0.008 259.3; /* secondary-700 */
-    --secondary-foreground: 0.923 0.010 251.2; /* gray-100 */
+    /* Primary - Deep blue gradient */
+    --primary: 235 85% 55%;
+    --primary-dark: 240 85% 45%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Muted Elements */
-    --muted: 0.205 0.006 258.9; /* secondary-800 */
-    --muted-foreground: 0.471 0.023 258.2; /* secondary-400 */
+    /* Secondary - Subtle glass tint */
+    --secondary: 225 41% 12%;
+    --secondary-foreground: 210 40% 90%;
 
-    /* Accent Colors */
-    --accent: 0.365 0.143 267.8; /* primary-800 */
-    --accent-foreground: 0.971 0.017 223.8; /* primary-50 */
+    /* Muted elements */
+    --muted: 225 41% 10%;
+    --muted-foreground: 215 20% 65%;
 
-    /* Status Colors */
-    --destructive: 0.641 0.182 18.3; /* error-400 */
-    --destructive-foreground: 0.210 0.005 243.8; /* iridium */
+    /* Accent - Bright cyan for actions */
+    --accent: 195 85% 60%;
+    --accent-dark: 200 85% 50%;
+    --accent-foreground: 223 47% 4%;
 
-    /* Borders and Inputs */
-    --border: 0.205 0.006 258.9; /* secondary-800 */
-    --input: 0.205 0.006 258.9; /* secondary-800 */
-    --ring: 0.688 0.141 238.9; /* primary-400 */
+    /* Status colors */
+    --success: 142 85% 55%;
+    --warning: 48 95% 60%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Borders and inputs */
+    --border: 225 41% 15%;
+    --input: 225 41% 8%;
+    --ring: 235 85% 55%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(235 85% 55%) 0%, hsl(260 85% 65%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(195 85% 60%) 0%, hsl(220 85% 70%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    --gradient-surface: linear-gradient(135deg, hsl(224 44% 6%) 0%, hsl(225 41% 8%) 100%);
+
+    /* Shadows and effects */
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-elevated: 0 20px 40px rgba(0, 0, 0, 0.4);
+    --backdrop-blur: blur(16px);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     /* Sidebar */
-    --sidebar-background: 0.210 0.005 243.8; /* iridium */
-    --sidebar-foreground: 0.961 0.004 248.2; /* frost-blue */
-    --sidebar-primary: 0.688 0.141 238.9; /* primary-400 */
-    --sidebar-primary-foreground: 0.210 0.005 243.8; /* iridium */
-    --sidebar-accent: 0.239 0.008 259.3; /* secondary-700 */
-    --sidebar-accent-foreground: 0.923 0.010 251.2; /* gray-100 */
-    --sidebar-border: 0.205 0.006 258.9; /* secondary-800 */
-    --sidebar-ring: 0.688 0.141 238.9; /* primary-400 */
-
-    /* Theme Specific Colors */
-    --primary-50: 0.971 0.017 223.8;
-    --primary-100: 0.923 0.035 224.5;
-    --primary-200: 0.872 0.061 225.2;
-    --primary-300: 0.799 0.097 230.0;
-    --primary-400: 0.688 0.141 238.9;
-    --primary-500: 0.548 0.140 255.9;
-    --primary-600: 0.471 0.154 266.4;
-    --primary-700: 0.410 0.161 270.0;
-    --primary-800: 0.365 0.143 267.8;
-    --primary-900: 0.296 0.111 264.4;
-
-    --secondary-50: 0.960 0.009 248.3;
-    --secondary-100: 0.918 0.014 254.7;
-    --secondary-200: 0.824 0.023 255.5;
-    --secondary-300: 0.667 0.030 257.4;
-    --secondary-400: 0.471 0.023 258.2;
-    --secondary-500: 0.340 0.014 257.2;
-    --secondary-600: 0.291 0.011 257.3;
-    --secondary-700: 0.239 0.008 259.3;
-    --secondary-800: 0.205 0.006 258.9;
-    --secondary-900: 0.188 0.005 256.7;
-
-    --gray-50: 0.961 0.004 248.2;
-    --gray-100: 0.923 0.010 251.2;
-    --gray-200: 0.851 0.017 252.5;
-    --gray-300: 0.779 0.022 253.8;
-    --gray-400: 0.708 0.027 254.8;
-    --gray-500: 0.638 0.031 255.7;
-    --gray-600: 0.604 0.030 256.3;
-    --gray-700: 0.552 0.030 256.5;
-    --gray-800: 0.517 0.028 255.7;
-    --gray-900: 0.441 0.023 255.0;
-
-    --error-50: 0.946 0.019 26.1;
-    --error-100: 0.894 0.044 23.0;
-    --error-200: 0.830 0.088 20.7;
-    --error-300: 0.741 0.141 18.9;
-    --error-400: 0.641 0.182 18.3;
-    --error-500: 0.542 0.200 18.2;
-    --error-600: 0.504 0.191 17.9;
-    --error-700: 0.431 0.165 17.2;
-    --error-800: 0.370 0.140 16.9;
-    --error-900: 0.328 0.108 17.1;
-
-    --success-50: 0.956 0.020 149.7;
-    --success-100: 0.908 0.042 149.0;
-    --success-200: 0.853 0.069 148.8;
-    --success-300: 0.771 0.107 148.4;
-    --success-400: 0.649 0.141 147.6;
-    --success-500: 0.600 0.167 147.3;
-    --success-600: 0.506 0.146 147.0;
-    --success-700: 0.427 0.122 147.2;
-    --success-800: 0.354 0.102 147.0;
-    --success-900: 0.297 0.082 145.8;
-
-    --warning-50: 0.965 0.021 95.9;
-    --warning-100: 0.933 0.051 91.7;
-    --warning-200: 0.879 0.105 85.9;
-    --warning-300: 0.828 0.146 77.7;
-    --warning-400: 0.769 0.171 72.8;
-    --warning-500: 0.697 0.174 67.4;
-    --warning-600: 0.606 0.179 58.5;
-    --warning-700: 0.478 0.138 53.4;
-    --warning-800: 0.402 0.111 47.9;
-    --warning-900: 0.342 0.086 44.1;
-
-    --iridium: 0.210 0.005 243.8;
-    --frost-blue: 0.961 0.004 248.2;
+    --sidebar-background: 223 47% 4%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 235 85% 55%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 225 41% 12%;
+    --sidebar-accent-foreground: 210 40% 90%;
+    --sidebar-border: 225 41% 15%;
+    --sidebar-ring: 195 85% 60%;
 
     --radius: 0.75rem;
   }
@@ -131,29 +85,29 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans text-base;
+    @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
   }
 }
 
 @layer components {
-  /* Professional card styles */
+  /* Glass morphism card styles */
   .glass-card {
-    @apply bg-card text-card-foreground border border-border rounded-lg;
+    @apply bg-gradient-glass backdrop-blur-lg border border-white/10 shadow-glass;
   }
 
   .glass-card-elevated {
-    @apply bg-card text-card-foreground border border-border rounded-xl shadow-xl;
+    @apply bg-gradient-glass backdrop-blur-lg border border-white/20 shadow-elevated;
   }
 
   /* Agent command input styles */
   .agent-command-input {
-    @apply w-full bg-input border border-border rounded-md px-4 py-2 text-base text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring transition-all duration-300;
+    @apply w-full bg-gradient-glass backdrop-blur-lg border border-white/20 rounded-xl px-6 py-3 text-lg text-black placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300 h-12;
   }
 
   /* Metric card styles */
   .metric-card {
-    @apply glass-card p-6 hover:border-primary transition-all duration-300 hover:transform hover:scale-[1.02];
+    @apply glass-card rounded-xl p-6 hover:border-white/30 transition-all duration-300 hover:transform hover:scale-[1.02];
   }
 
   /* Task execution styles */
@@ -162,11 +116,11 @@
   }
 
   .task-step.pending {
-    @apply bg-secondary;
+    @apply bg-background-secondary;
   }
 
   .task-step.completed {
-    @apply bg-success-50 border-l-4 border-l-success-600;
+    @apply bg-success/10 border-l-4 border-l-success;
   }
 
   .task-step strong {
@@ -175,16 +129,16 @@
 
   /* Timeline styles */
   .timeline-stage {
-    @apply relative flex-1 min-h-[120px] p-4 rounded-xl border border-border transition-all duration-300;
+    @apply relative flex-1 min-h-[120px] p-4 rounded-xl border border-white/10 transition-all duration-300;
   }
 
   .timeline-stage.active {
-    @apply border-primary shadow-primary-2px;
+    @apply border-accent shadow-[0_0_20px_rgba(56,189,248,0.3)];
   }
 
   /* Navigation active state */
   .nav-item-active {
-    @apply bg-primary text-primary-foreground shadow-primary-2px;
+    @apply bg-gradient-primary text-primary-foreground shadow-[0_0_20px_rgba(59,130,246,0.4)];
   }
 
   /* Animations */
