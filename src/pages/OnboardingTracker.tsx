@@ -69,9 +69,9 @@ const OnboardingTracker = () => {
             return (
               <div key={stage.id} className="timeline-stage">
                 {/* Stage Header */}
-                <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4">
                   <div className={`w-3 h-3 rounded-full ${stage.color}`} />
-                  <h3 className="font-semibold text-foreground text-xs whitespace-nowrap">{stage.title}</h3>
+                  <h3 className="font-semibold text-foreground">{stage.title}</h3>
                 </div>
 
                 {/* Progress Line */}
@@ -98,11 +98,11 @@ const OnboardingTracker = () => {
                           
                           <div className="space-y-1">
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <User className="h-3 w-3 text-blue-500" />
+                              <User className="h-3 w-3" />
                               {employee.manager}
                             </div>
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Calendar className="h-3 w-3 text-blue-500" />
+                              <Calendar className="h-3 w-3" />
                               {new Date(employee.startDate).toLocaleDateString()}
                             </div>
                           </div>
@@ -133,7 +133,7 @@ const OnboardingTracker = () => {
               return (
                 <div key={stage.id} className="text-center">
                   <div className="text-2xl font-bold text-foreground">{count}</div>
-                  <div className="text-xs text-muted-foreground">{stage.title}</div>
+                  <div className="text-sm text-muted-foreground">{stage.title}</div>
                 </div>
               );
             })}

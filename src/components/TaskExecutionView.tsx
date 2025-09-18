@@ -28,20 +28,20 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
   const getStepIcon = (status: TaskStep["status"]) => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-success" />;
       case "pending":
-        return <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />;
+        return <Loader2 className="h-5 w-5 text-primary animate-spin" />;
       default:
-        return <Clock className="h-5 w-5 text-gray-400" />;
+        return <Clock className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm p-6 shadow-2xl border border-white/30">
+    <Card className="glass-card-elevated p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-semibold text-gray-800">{task.title}</h3>
-          <p className="text-sm text-gray-600 mt-1">"{task.command}"</p>
+          <h3 className="text-xl font-semibold text-foreground">{task.title}</h3>
+          <p className="text-sm text-muted-foreground mt-1">"{task.command}"</p>
         </div>
         
         <div className="flex items-center gap-3">
@@ -49,14 +49,14 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
             variant="outline" 
             className={
               task.status === "completed" 
-                ? "bg-green-100 text-green-600 border-green-300" 
-                : "bg-blue-100 text-blue-500 border-blue-300"
+                ? "bg-success/20 text-success border-success/30" 
+                : "bg-primary/20 text-primary border-primary/30"
             }
           >
             {task.status === "completed" ? "Complete" : "Processing"}
           </Badge>
           
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-muted-foreground">
             {completedSteps}/{totalSteps} steps
           </div>
         </div>
@@ -64,13 +64,13 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
 
       {/* Progress Bar */}
       <div className="mb-6">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="flex justify-between text-sm text-muted-foreground mb-2">
           <span>Progress</span>
           <span>{Math.round(progressPercentage)}%</span>
         </div>
-        <div className="w-full bg-white/20 rounded-full h-2">
+        <div className="w-full bg-background-secondary rounded-full h-2">
           <div 
-            className="bg-gradient-to-r from-blue-400 to-blue-500 h-2 rounded-full transition-all duration-500 ease-out"
+            className="bg-gradient-primary h-2 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progressPercentage}%` }}
           />
         </div>
@@ -99,12 +99,12 @@ export const TaskExecutionView = ({ task }: TaskExecutionViewProps) => {
       </div>
 
       {task.status === "completed" && (
-        <div className="mt-6 p-4 rounded-lg bg-green-50 border border-green-200">
-          <div className="flex items-center gap-2 text-green-600">
+        <div className="mt-6 p-4 rounded-lg bg-success/10 border border-success/20">
+          <div className="flex items-center gap-2 text-success">
             <CheckCircle className="h-5 w-5" />
             <span className="font-medium">Task completed successfully!</span>
           </div>
-          <p className="text-sm text-green-500 mt-1">
+          <p className="text-sm text-success/80 mt-1">
             All steps have been executed. You can now check the results in the relevant sections.
           </p>
         </div>

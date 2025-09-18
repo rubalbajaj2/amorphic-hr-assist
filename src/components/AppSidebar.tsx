@@ -9,8 +9,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Home, Users, BookOpen, MessageSquare, Search, X } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const navigationItems = [
   {
@@ -88,7 +90,9 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
+  const { state } = useSidebar();
   const location = useLocation();
+  const collapsed = state === "collapsed";
   const [searchQuery, setSearchQuery] = useState("");
 
   const isActive = (path: string) => {
@@ -100,8 +104,8 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
 
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? "bg-blue-100 text-blue-800 shadow-sm rounded-md"
-      : "text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-300 rounded-md";
+      ? "nav-item-active"
+      : "hover:bg-white/10 transition-all duration-300";
 
   const filteredQuestions = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -117,8 +121,8 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
   };
 
   return (
-    <Sidebar className="w-64">
-      <SidebarContent className="bg-white border-r border-gray-200">
+    <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
+      <SidebarContent className="bg-background border-r border-white/10">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2 p-4">
@@ -130,8 +134,10 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
                       end={item.url === "/"}
                       className={({ isActive }) => getNavCls({ isActive })}
                     >
-                      <item.icon className="h-5 w-5 flex-shrink-0 text-blue-500" />
-                       <span className="font-medium text-gray-800">{item.title}</span>
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      {!collapsed && (
+                        <span className="font-medium">{item.title}</span>
+                      )}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -140,56 +146,58 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-            <SidebarGroupLabel className="px-4 flex items-center gap-2 text-gray-600 font-semibold">
-              <MessageSquare className="h-4 w-4 text-blue-500" />
+        {!collapsed && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="px-4 flex items-center gap-2 text-muted-foreground">
+              <MessageSquare className="h-4 w-4" />
               Recent Questions
             </SidebarGroupLabel>
-          <SidebarGroupContent>
-            {/* Search Bar */}
-            <div className="px-4 mb-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500" />
-                <input
-                  type="text"
-                  placeholder="Search questions..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-8 py-2 bg-gray-50 border border-gray-300 rounded-md text-sm text-gray-800 placeholder:text-gray-400 focus:bg-white focus:border-blue-300 focus:shadow-sm transition-all duration-300"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={handleClearSearch}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            </div>
-            
-            {/* Questions List */}
-            <div className="px-4 max-h-[calc(100vh-350px)] overflow-y-auto">
-              <div className="space-y-1">
-                {filteredQuestions.length > 0 ? (
-                  filteredQuestions.map((question, index) => (
+            <SidebarGroupContent>
+              {/* Search Bar */}
+              <div className="px-4 mb-3">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Search questions..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-8 py-2 bg-background-secondary/30 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300"
+                  />
+                  {searchQuery && (
                     <button
-                      key={index}
-                      onClick={() => onQuestionClick?.(question)}
-                      className="w-full text-left p-3 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200 whitespace-normal leading-relaxed"
+                      onClick={handleClearSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {question}
+                      <X className="h-4 w-4" />
                     </button>
-                  ))
-                ) : (
-                  <div className="p-3 text-sm text-gray-500 text-center">
-                    No questions found matching "{searchQuery}"
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
+              
+              {/* Questions List */}
+              <div className="px-4 max-h-[calc(100vh-350px)] overflow-y-auto">
+                <div className="space-y-1">
+                  {filteredQuestions.length > 0 ? (
+                    filteredQuestions.map((question, index) => (
+                      <button
+                        key={index}
+                        onClick={() => onQuestionClick?.(question)}
+                        className="w-full text-left p-3 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-colors duration-200 whitespace-normal leading-relaxed"
+                      >
+                        {question}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="p-3 text-sm text-muted-foreground text-center">
+                      No questions found matching "{searchQuery}"
+                    </div>
+                  )}
+                </div>
+              </div>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
   );
