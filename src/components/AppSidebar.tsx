@@ -11,24 +11,46 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Home, Users, BookOpen, MessageSquare, Search, X } from "lucide-react";
+import { Home, Users, BookOpen, MessageSquare, Search, X, ChevronDown, ChevronRight, Bot, Building2 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const navigationItems = [
+const navigationCategories = [
   {
-    title: "Dashboard",
-    url: "/",
-    icon: Home,
+    title: "Vertical Integration",
+    icon: Building2,
+    items: [
+      {
+        title: "HR AI Agent",
+        url: "/",
+        icon: Bot,
+      },
+      {
+        title: "Onboarding Tracker",
+        url: "/onboarding",
+        icon: Users,
+      },
+      {
+        title: "AI Knowledge Base",
+        url: "/knowledge-base",
+        icon: BookOpen,
+      },
+    ],
   },
   {
-    title: "Onboarding Tracker",
-    url: "/onboarding",
-    icon: Users,
-  },
-  {
-    title: "AI Knowledge Base",
-    url: "/knowledge-base",
-    icon: BookOpen,
+    title: "Horizontal Integration",
+    icon: Building2,
+    items: [
+      {
+        title: "FOI AI Agent",
+        url: "/foi-agent",
+        icon: Bot,
+      },
+      {
+        title: "AI Knowledge Base",
+        url: "/knowledge-base",
+        icon: BookOpen,
+      },
+    ],
   },
 ];
 
@@ -94,6 +116,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
   const location = useLocation();
   const collapsed = state === "collapsed";
   const [searchQuery, setSearchQuery] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(["Vertical Integration"]);
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -120,27 +143,62 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
     setSearchQuery("");
   };
 
+  const toggleCategory = (categoryTitle: string) => {
+    setExpandedCategories(prev => 
+      prev.includes(categoryTitle) 
+        ? prev.filter(title => title !== categoryTitle)
+        : [...prev, categoryTitle]
+    );
+  };
+
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarContent className="bg-background border-r border-white/10">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2 p-4">
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end={item.url === "/"}
-                      className={({ isActive }) => getNavCls({ isActive })}
+            <SidebarMenu className="space-y-1 p-4">
+              {navigationCategories.map((category) => (
+                <div key={category.title} className="space-y-1">
+                  {/* Category Header */}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={() => !collapsed && toggleCategory(category.title)}
+                      className="hover:bg-white/10 transition-all duration-300"
                     >
-                      <item.icon className="h-5 w-5 flex-shrink-0 text-blue-400" />
+                      <category.icon className="h-5 w-5 flex-shrink-0 text-blue-400" />
                       {!collapsed && (
-                        <span className="font-medium">{item.title}</span>
+                        <>
+                          <span className="font-medium whitespace-nowrap">{category.title}</span>
+                          {expandedCategories.includes(category.title) ? (
+                            <ChevronDown className="h-4 w-4 ml-auto flex-shrink-0" />
+                          ) : (
+                            <ChevronRight className="h-4 w-4 ml-auto flex-shrink-0" />
+                          )}
+                        </>
                       )}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  
+                  {/* Category Items */}
+                  {!collapsed && expandedCategories.includes(category.title) && (
+                    <div className="ml-6 space-y-1">
+                      {category.items.map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
+                            <NavLink
+                              to={item.url}
+                              end={item.url === "/"}
+                              className={({ isActive }) => getNavCls({ isActive })}
+                            >
+                              <item.icon className="h-4 w-4 flex-shrink-0 text-blue-400" />
+                              <span className="font-medium text-sm">{item.title}</span>
+                            </NavLink>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
