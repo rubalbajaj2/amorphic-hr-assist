@@ -8,6 +8,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import OnboardingTracker from "./pages/OnboardingTracker";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import FoiAgent from "./pages/FoiAgent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,8 @@ const App = () => (
               <Route index element={<Dashboard />} />
               <Route path="onboarding" element={<OnboardingTracker />} />
               <Route path="knowledge-base" element={<KnowledgeBase />} />
+              <Route path="foi-agent" element={<FoiAgent />} />
+              <Route path="foi-knowledge-base" element={<KnowledgeBase isFoiAgent={true} />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

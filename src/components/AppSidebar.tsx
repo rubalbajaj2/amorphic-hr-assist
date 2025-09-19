@@ -16,7 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const navigationCategories = [
   {
-    title: "Vertical Integration",
+    title: "Amorphic | Agentic HR",
     icon: Building2,
     items: [
       {
@@ -37,7 +37,7 @@ const navigationCategories = [
     ],
   },
   {
-    title: "Horizontal Integration",
+    title: "Amorphic | Agentic FOI",
     icon: Building2,
     items: [
       {
@@ -47,7 +47,7 @@ const navigationCategories = [
       },
       {
         title: "AI Knowledge Base",
-        url: "/knowledge-base",
+        url: "/foi-knowledge-base",
         icon: BookOpen,
       },
     ],
@@ -116,7 +116,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
   const location = useLocation();
   const collapsed = state === "collapsed";
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedCategories, setExpandedCategories] = useState<string[]>(["Vertical Integration"]);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(["Amorphic | Agentic HR"]);
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -204,7 +204,7 @@ export function AppSidebar({ onQuestionClick }: AppSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {!collapsed && (
+        {!collapsed && (location.pathname === "/" || location.pathname === "/foi-agent") && (
           <SidebarGroup>
             <SidebarGroupLabel className="px-4 flex items-center gap-2 text-muted-foreground">
               <MessageSquare className="h-4 w-4 text-blue-400" />

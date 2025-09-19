@@ -49,7 +49,11 @@ const mockDocuments: Document[] = [
   },
 ];
 
-const KnowledgeBase = () => {
+interface KnowledgeBaseProps {
+  isFoiAgent?: boolean;
+}
+
+const KnowledgeBase = ({ isFoiAgent = false }: KnowledgeBaseProps) => {
   const [documents, setDocuments] = useState(mockDocuments);
   const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
@@ -151,117 +155,137 @@ const KnowledgeBase = () => {
         </div>
       </div>
 
-      <div className="fade-in">
-        <h1 className="text-3xl font-bold text-foreground mb-2">AI Knowledge Base</h1>
-        <p className="text-muted-foreground">
-          The Knowledge Base is your company's secure, single source of truth, containing your proprietary documents, product data, and internal expertise. Our models use <strong>Retrieval-Augmented Generation (RAG)</strong> to consult this trusted information, enabling them to deliver highly accurate, context-aware outputs and execute tasks based on your unique data.
-        </p>
-      </div>
-
-      {/* Upload Section */}
-      <div className="fade-in" style={{ animationDelay: "0.1s" }}>
-        <Card className="glass-card p-6">
-          <div className="flex items-center justify-end mb-4">
-            <Button 
-              onClick={handleUpload}
-              disabled={isUploading}
-              className="bg-blue-400 hover:bg-blue-500 text-white px-6 h-12"
-            >
-              <Upload className="h-4 w-4 mr-2" />
-              {isUploading ? "Uploading..." : "Upload Document"}
-            </Button>
+      {/* FOI Agent Iframe - Only show when isFoiAgent is true */}
+      {isFoiAgent && (
+        <div className="fade-in">
+          <div className="w-full h-[600px]">
+            <iframe
+              src="https://merton-foi.lovable.app/"
+              className="w-full h-full border-0"
+              title="Merton FOI AI Agent"
+              allow="clipboard-write"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            />
           </div>
-          
-          <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center">
-            <FileText className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-            <p className="text-muted-foreground mb-2">
-              Drag and drop files here, or click the upload button
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Supports PDF, DOC, DOCX files up to 10MB
+        </div>
+      )}
+
+      {/* AI Knowledge Base Content - Only show when NOT isFoiAgent */}
+      {!isFoiAgent && (
+        <>
+          <div className="fade-in">
+            <h1 className="text-3xl font-bold text-foreground mb-2">AI Knowledge Base</h1>
+            <p className="text-muted-foreground">
+              The Knowledge Base is your company's secure, single source of truth, containing your proprietary documents, product data, and internal expertise. Our models use <strong>Retrieval-Augmented Generation (RAG)</strong> to consult this trusted information, enabling them to deliver highly accurate, context-aware outputs and execute tasks based on your unique data.
             </p>
           </div>
-        </Card>
-      </div>
 
-      {/* Documents List */}
-      <div className="fade-in" style={{ animationDelay: "0.2s" }}>
-        <Card className="glass-card p-6">
-          <h3 className="font-semibold text-foreground mb-4">Document Library</h3>
-          
-          <div className="space-y-3">
-            {documents.map((doc) => (
-              <div 
-                key={doc.id}
-                className="flex items-center justify-between p-4 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-surface flex items-center justify-center">
-                    <FileText className="h-5 w-5 text-blue-400" />
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-foreground">{doc.name}</h4>
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <span>{doc.type}</span>
-                      <span>•</span>
-                      <span>{doc.size}</span>
-                      <span>•</span>
-                      <span>{new Date(doc.uploadDate).toLocaleDateString()}</span>
+          {/* Upload Section */}
+          <div className="fade-in" style={{ animationDelay: "0.1s" }}>
+            <Card className="glass-card p-6">
+              <div className="flex items-center justify-end mb-4">
+                <Button 
+                  onClick={handleUpload}
+                  disabled={isUploading}
+                  className="bg-blue-400 hover:bg-blue-500 text-white px-6 h-12"
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  {isUploading ? "Uploading..." : "Upload Document"}
+                </Button>
+              </div>
+              
+              <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center">
+                <FileText className="h-12 w-12 text-blue-400 mx-auto mb-4" />
+                <p className="text-muted-foreground mb-2">
+                  Drag and drop files here, or click the upload button
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Supports PDF, DOC, DOCX files up to 10MB
+                </p>
+              </div>
+            </Card>
+          </div>
+
+          {/* Documents List */}
+          <div className="fade-in" style={{ animationDelay: "0.2s" }}>
+            <Card className="glass-card p-6">
+              <h3 className="font-semibold text-foreground mb-4">Document Library</h3>
+              
+              <div className="space-y-3">
+                {documents.map((doc) => (
+                  <div 
+                    key={doc.id}
+                    className="flex items-center justify-between p-4 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-surface flex items-center justify-center">
+                        <FileText className="h-5 w-5 text-blue-400" />
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-foreground">{doc.name}</h4>
+                        <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                          <span>{doc.type}</span>
+                          <span>•</span>
+                          <span>{doc.size}</span>
+                          <span>•</span>
+                          <span>{new Date(doc.uploadDate).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      {getStatusIcon(doc.status)}
+                      {getStatusBadge(doc.status)}
+                      
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(doc.id)}
+                        className="text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4 text-blue-400" />
+                      </Button>
                     </div>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  {getStatusIcon(doc.status)}
-                  {getStatusBadge(doc.status)}
-                  
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(doc.id)}
-                    className="text-muted-foreground hover:text-destructive"
-                  >
-                    <Trash2 className="h-4 w-4 text-blue-400" />
-                  </Button>
-                </div>
+                ))}
               </div>
-            ))}
+
+              {documents.length === 0 && (
+                <div className="text-center py-12 text-muted-foreground">
+                  <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>No documents uploaded yet</p>
+                  <p className="text-sm">Upload your first document to get started</p>
+                </div>
+              )}
+            </Card>
           </div>
 
-          {documents.length === 0 && (
-            <div className="text-center py-12 text-muted-foreground">
-              <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>No documents uploaded yet</p>
-              <p className="text-sm">Upload your first document to get started</p>
+          {/* Knowledge Base Stats */}
+          <div className="fade-in" style={{ animationDelay: "0.3s" }}>
+            <div className="grid grid-cols-3 gap-4">
+              <Card className="glass-card p-4 text-center">
+                <div className="text-2xl font-bold text-foreground">{documents.length}</div>
+                <div className="text-sm text-muted-foreground">Total Documents</div>
+              </Card>
+              
+              <Card className="glass-card p-4 text-center">
+                <div className="text-2xl font-bold text-success">
+                  {documents.filter(d => d.status === "synced").length}
+                </div>
+                <div className="text-sm text-muted-foreground">Synced</div>
+              </Card>
+              
+              <Card className="glass-card p-4 text-center">
+                <div className="text-2xl font-bold text-warning">
+                  {documents.filter(d => d.status === "syncing").length}
+                </div>
+                <div className="text-sm text-muted-foreground">Processing</div>
+              </Card>
             </div>
-          )}
-        </Card>
-      </div>
-
-      {/* Knowledge Base Stats */}
-      <div className="fade-in" style={{ animationDelay: "0.3s" }}>
-        <div className="grid grid-cols-3 gap-4">
-          <Card className="glass-card p-4 text-center">
-            <div className="text-2xl font-bold text-foreground">{documents.length}</div>
-            <div className="text-sm text-muted-foreground">Total Documents</div>
-          </Card>
-          
-          <Card className="glass-card p-4 text-center">
-            <div className="text-2xl font-bold text-success">
-              {documents.filter(d => d.status === "synced").length}
-            </div>
-            <div className="text-sm text-muted-foreground">Synced</div>
-          </Card>
-          
-          <Card className="glass-card p-4 text-center">
-            <div className="text-2xl font-bold text-warning">
-              {documents.filter(d => d.status === "syncing").length}
-            </div>
-            <div className="text-sm text-muted-foreground">Processing</div>
-          </Card>
-        </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
